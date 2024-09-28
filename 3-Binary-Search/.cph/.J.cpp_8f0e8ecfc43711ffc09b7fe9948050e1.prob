@@ -1,0 +1,1 @@
+{"name":"Local: J","url":"c:\\Users\\Nout\\Documents\\CONTESTS\\tinkoff-course-2024\\3-Binary-Search\\J.cpp","tests":[{"id":1727551803404,"input":"5 5\n1 3 5 7 9\n2 4 8 1 6","output":"1\n3\n7\n1\n5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Nout\\Documents\\CONTESTS\\tinkoff-course-2024\\3-Binary-Search\\J.cpp","group":"local","local":true}
