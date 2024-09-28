@@ -1,0 +1,1 @@
+{"name":"Local: E","url":"c:\\Users\\Nout\\Documents\\CONTESTS\\tinkoff-course-2024\\1-Containers\\E.cpp","tests":[{"id":1727440474600,"input":"6\n1 2\n1 3\n4\n2\n3 1\n4","output":"2\n2\n3\n3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\Nout\\Documents\\CONTESTS\\tinkoff-course-2024\\1-Containers\\E.cpp","group":"local","local":true}

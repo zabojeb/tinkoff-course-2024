@@ -1,118 +1,108 @@
 #include <iostream>
 #include <stack>
+#include <vector>
+#include <algorithm>
+#include <climits>
 
 using namespace std;
 
-stack<int> s1, s2;
-stack<int> min_s1, min_s2;
-
 int main()
 {
-    int q;
+    stack<long long> s1_val, s2_val;
+    stack<long long> s1_min, s2_min;
+
+    long long q;
     cin >> q;
 
-    for (int i = 0; i < q; ++i)
+    for (long long i = 0; i < q; ++i)
     {
-        int req;
-        cin >> req;
+        long long n;
+        cin >> n;
 
-        if (req == 1)
+        if (n == 1)
         {
-            int x;
+            long long x;
             cin >> x;
 
-            s1.push(x);
+            s1_val.push(x);
 
-            if (min_s1.empty())
-            {
-                min_s1.push(x);
-            }
-            else
-            {
-                min_s1.push(min(x, min_s1.top()));
-            }
+            s1_min.push(s1_min.empty() ? x : min(x, s1_min.top()));
         }
-        else if (req == 2)
+        else if (n == 2)
         {
-            if (s2.empty())
+            if (s2_val.empty())
             {
-                while (!s1.empty())
+                while (!s1_val.empty())
                 {
-                    int x = s1.top();
-                    s1.pop();
-                    s2.push(x);
-                    if (min_s2.empty())
-                    {
-                        min_s2.push(x);
-                    }
-                    else
-                    {
-                        min_s2.push(min(x, min_s2.top()));
-                    }
-                    min_s1.pop();
+                    long long val = s1_val.top();
+                    s1_val.pop();
+                    s1_min.pop();
+
+                    s2_val.push(val);
+
+                    long long new_min = s2_min.empty() ? val : min(val, s2_min.top());
+                    s2_min.push(new_min);
                 }
             }
 
-            int x = s2.top();
-            s2.pop();
-            min_s2.pop();
-
-            cout << x << endl;
+            long long last_element = s2_val.top();
+            s2_val.pop();
+            s2_min.pop();
+            cout << last_element << endl;
         }
-        else if (req == 3)
+        else if (n == 3)
         {
-            int index;
-            cin >> index;
-            index--;
+            long long idx;
+            cin >> idx;
 
-            if (s2.empty())
+            vector<long long> temp;
+
+            while (!s2_val.empty())
             {
-                while (!s1.empty())
-                {
-                    int x = s1.top();
-                    s1.pop();
-                    s2.push(x);
-                    if (min_s2.empty())
-                    {
-                        min_s2.push(x);
-                    }
-                    else
-                    {
-                        min_s2.push(min(x, min_s2.top()));
-                    }
-                    min_s1.pop();
-                }
+                temp.push_back(s2_val.top());
+                s2_val.pop();
             }
 
-            stack<int> temp;
-            for (int j = 0; j < index; j++)
+            reverse(temp.begin(), temp.end());
+
+            while (!s1_val.empty())
             {
-                temp.push(s2.top());
-                s2.pop();
+                temp.push_back(s1_val.top());
+                s1_val.pop();
             }
 
-            cout << s2.top() << endl;
+            cout << temp[idx - 1] << endl;
 
-            while (!temp.empty())
+            for (long long j = temp.size() - 1; j >= 0; --j)
             {
-                s2.push(temp.top());
-                temp.pop();
+                s1_val.push(temp[j]);
+
+                s1_min.push(s1_min.empty() ? temp[j] : min(temp[j], s1_min.top()));
             }
         }
-        else if (req == 4)
+        else if (n == 4)
         {
-            if (s1.empty())
+            long long min_s1, min_s2;
+
+            if (s1_min.empty())
             {
-                cout << min_s2.top() << endl;
-            }
-            else if (s2.empty())
-            {
-                cout << min_s1.top() << endl;
+                min_s1 = 10^18;
             }
             else
             {
-                cout << min(min_s1.top(), min_s2.top()) << endl;
+                min_s1 = s1_min.top();
             }
+
+            if (s2_min.empty())
+            {
+                min_s2 = 10^18;
+            }
+            else
+            {
+                min_s2 = s2_min.top();
+            }
+
+            cout << min(min_s1, min_s2) << endl;
         }
     }
 
