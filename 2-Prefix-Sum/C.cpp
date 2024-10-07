@@ -4,17 +4,16 @@
 using namespace std;
 
 int main() {
-  int n, m;
+  long long n, m;
   cin >> n >> m;
 
-  vector<vector<int>> board;
-  for (int i = 0; i < n; i++) {
-    vector<int> row;
-    for (int j = 0; j < m; j++) {
-      int foo;
+  vector<vector<long long>> board(n, vector<long long>(m, 0));
+  for (long long i = 0; i < n; i++) {
+    for (long long j = 0; j < m; j++) {
+      long long foo;
       cin >> foo;
 
-      int ie, je;
+      long long ie, je, ije;
       if (i == 0) {
         ie = 0;
       } else {
@@ -27,25 +26,49 @@ int main() {
         je = board[i][j - 1];
       }
 
-      row.push_back(foo + ie + je);
-    }
+      if (j == 0 or i == 0) {
+        ije = 0;
+      } else {
+        ije = board[i - 1][j - 1];
+      }
 
-    board.push_back(row);
+      board[i][j] = foo + ie + je - ije;
+    }
   }
 
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++) {
-      cout << board[i][j] << " ";
+  long long q;
+  cin >> q;
+
+  for (long long foo = 0; foo < q; foo++) {
+    long long lx, ly, rx, ry;
+    cin >> lx >> ly >> rx >> ry;
+
+    lx--;
+    ly--;
+    rx--;
+    ry--;
+
+    long long s = board[rx][ry];
+
+    long long si, sj, sij;
+    if (ly == 0) {
+      si = 0;
+    } else {
+      si = board[rx][ly - 1];
     }
-    cout << endl;
+
+    if (lx == 0) {
+      sj = 0;
+    } else {
+      sj = board[lx - 1][ry];
+    }
+
+    if (lx == 0 or ly == 0) {
+      sij = 0;
+    } else {
+      sij = board[lx - 1][ly - 1];
+    }
+
+    cout << s - si - sj + sij << " ";
   }
-
-  /*
-    int q;
-    cin >> q;
-
-    for (int foo = 0; foo < q; foo++) {
-      int lx, ly, rx, ry;
-      cin >> lx >> ly >> rx >> ry;
-  */
 }
