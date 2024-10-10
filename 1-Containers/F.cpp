@@ -3,36 +3,53 @@
 
 using namespace std;
 
-int main()
-{
-    long long n; // Я НЕНАВИЖУ C++ ЕСЛИ ОНО НЕ РАБОТАЛО ИЗ-ЗА ИНТА ТО Я
-    cin >> n;
+int main() {
+  int n;
+  cin >> n;
 
-    stack<pair<long long, long long>> st;
-    long long count = 0;
+  stack<int> balls;
+  stack<int> count_balls;
 
-    for (long long i = 0; i < n; i++)
-    {
-        long long booble; // я изобрел новое слово
-        cin >> booble;
+  int counter = 0;
+  for (int i = 0; i < n; i++) {
+    int ball;
+    cin >> ball;
 
-        if (!st.empty() && st.top().first == booble)
-        {
-            st.top().second++;
-        }
-        else
-        {
-            st.push({booble, 1});
-        }
-
-        if (st.top().second >= 3)
-        {
-            count += st.top().second;
-            st.pop();
-        }
+    if (i == 0) {
+      balls.push(ball);
+      count_balls.push(1);
     }
 
-    cout << count << endl;
+    else if (ball == balls.top()) {
+      count_balls.push(count_balls.top() + 1);
+      balls.push(ball);
+    } else if (count_balls.top() >= 3) {
+      int to_del = count_balls.top();
+      counter += to_del;
 
-    return 0;
+      for (int foo = 0; foo < to_del; foo++) {
+        count_balls.pop();
+        balls.pop();
+      }
+
+      if (balls.size() > 0 and ball == balls.top()) {
+        count_balls.push(count_balls.top() + 1);
+      } else {
+        count_balls.push(1);
+      }
+
+      balls.push(ball);
+    } else {
+      count_balls.push(1);
+      balls.push(ball);
+    }
+  }
+
+  if (count_balls.size() > 0 and count_balls.top() >= 3) {
+    counter += count_balls.top();
+  }
+
+  cout << counter;
+
+  return 0;
 }
